@@ -1,5 +1,5 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
+  <img alt="Vue logo" src="./assets/logo_fipuzor.png">
   <div id="app">
     <!-- Your other content here -->
     <home-page></home-page> <!-- Add the home-page component -->
@@ -26,5 +26,18 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  background-color: #4f9d5d;
+
+.container {
+display: flex;
+}
+.left-div {
+  flex: 1;
+}
+.right-div {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
 }
 </style>
