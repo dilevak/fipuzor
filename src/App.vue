@@ -4,15 +4,16 @@
     <!-- Your other content here -->
     <home-page></home-page> <!-- Add the home-page component -->
   </div>
+  <LoginView/>
 </template>
 
 <script>
-import HomePage from './components/home-page.vue'; // Adjust the path as needed
+import LoginView from './components/LoginView.vue'
 
 export default {
   name: 'App',
   components: {
-    HomePage, // Register the home-page component
+    LoginView
   },
   // ... other options and logic
 };
