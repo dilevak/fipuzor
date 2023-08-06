@@ -16,7 +16,7 @@ import LoginView from './components/LoginView.vue'
 export default {
   name: 'App',
   components: {
-    LoginView,
+    LoginView //Importamo komponente koje zelimo prikazati
     
   },
   // ... other options and logic
