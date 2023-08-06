@@ -1,19 +1,23 @@
 <template>
+   <!-- <h1>Welcome to</h1>-->
   <img alt="Vue logo" src="./assets/logo_fipuzor.png">
   <div id="app">
     <!-- Your other content here -->
     <home-page></home-page> <!-- Add the home-page component -->
   </div>
   <LoginView/>
+  <SignupView/>
 </template>
 
 <script>
 import LoginView from './components/LoginView.vue'
 
+
 export default {
   name: 'App',
   components: {
-    LoginView
+    LoginView,
+    
   },
   // ... other options and logic
 };
@@ -29,16 +33,5 @@ export default {
   margin-top: 60px;
   background-color: #4f9d5d;
 
-.container {
-display: flex;
-}
-.left-div {
-  flex: 1;
-}
-.right-div {
-  flex: 1;
-  display: flex;
-  justify-content: flex-end;
-}
 }
 </style>

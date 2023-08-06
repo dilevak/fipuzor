@@ -1,49 +1,51 @@
 <template>
-<!--Forma za login i login botun-->
-<!--Pomocu v-modea cemo bindat input i moći ćemo pohraniti te varijable i pristupiti im kroz kod.-->
-        
-        <form name="login-form" >
-          <div class="mb-3">
-            <label for="username">Username: </label>
-            <input type="text" id="username" v-model="input.username" />
-          </div>
-        <div class="mb-3">
-           <label for="password">Password: </label>
-           <input type="password" id="password" v-model="input.password" />
-        </div>
-          <button class="btn btn-outline-dark" type="submit" v-on:click.prevent = "login()">
-            Login
-          </button>
-          
-          <!--Test za print user/pass varijabli-->
+  <!--Forma za login i login botun-->
+  <!--Pomocu v-modela cemo bindati input i moći ćemo pohraniti te varijable i pristupiti im kroz kod.-->
+  <form name="login-form">
+    <div class="mb-3">
+      <label for="username">Username: </label>
+      <input type="text" id="username" v-model="input.username" />
+    </div>
+    <div class="mb-3">
+      <label for="password">Password: </label>
+      <input type="password" id="password" v-model="input.password" />
+    </div>
+    <button class="btn btn-outline-dark" type="submit" @click.prevent="login()">
+      Login
+    </button>
 
-          <p>Username is: {{input.username}}</p>
-          <p>Password is: {{input.password}}</p>
-        
-        </form>
+    <router-link to="/SignupView" class="btn btn-outline-dark">
+    Signup
+  </router-link>
 
-  </template>
+    <!-- Prikaz login status poruke korisniku -->
+    <p v-if="loginStatusMessage">{{ loginStatusMessage }}</p>
+  </form>
+</template>
 
 <script>
 export default {
   name: 'LoginView',
-  data(){
-    return{
-        input:{
-            username: "",
-            password: ""
-        }
-    }
+  data() {
+    return {
+      input: {
+        username: '',
+        password: '',
+      },
+      loginStatusMessage: '', //Za spremanje login status poruke
+    };
   },
-  methods:{
-    login(){
-      //make sure username OR password are not empty
-      if(this.input.username != "" || this.input.password != ""){
-        console.log("authenticated")
-      }else{
-        console.log("Username and Password can not be empty")
+  methods: {
+    login() {
+      // Make sure both username and password are not empty
+      if (this.input.username !== '' && this.input.password !== '') {
+        console.log('authenticated');
+        this.loginStatusMessage = ''; //Ne prikazivanje "authenticated" statusa useru
+      } else {
+        console.log('Username and Password cannot be empty');
+        this.loginStatusMessage = 'Username and Password cannot be empty'; // Greska koja se ispisuje korisniku
       }
-    }
+    },
   },
-}
+};
 </script>
