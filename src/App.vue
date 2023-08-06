@@ -10,14 +10,13 @@
 </template>
 
 <script>
-import LoginView from './components/LoginView.vue'
+import LoginView from './views/LoginView.vue'
 
 
 export default {
   name: 'App',
   components: {
-    LoginView //Importamo komponente koje zelimo prikazati
-    
+    LoginView, //Importamo komponente koje zelimo prikazati
   },
   // ... other options and logic
 };
