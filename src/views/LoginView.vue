@@ -1,4 +1,7 @@
 <template>
+    <div class="home">
+    <img alt="Fipuzor Logo" src="../assets/logo_fipuzor.png">
+  </div>
   <!--Forma za login i login botun-->
   <!--Pomocu v-modela cemo bindati input i moći ćemo pohraniti te varijable i pristupiti im kroz kod.-->
   <form name="login-form">
@@ -14,7 +17,7 @@
       Login
     </button>
 
-    <router-link to="/Signup" class="btn btn-outline-dark" exact>Signup</router-link>
+    <p>Don't have an account yet? <router-link to="/Signup" class="btn btn-outline-dark" exact>Signup</router-link></p>
     
     <!-- Prikaz login status poruke korisniku -->
     <p v-if="loginStatusMessage">{{ loginStatusMessage }}</p>

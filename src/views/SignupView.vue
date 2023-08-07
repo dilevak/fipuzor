@@ -1,5 +1,9 @@
 <template>
-  <!-- Signup form -->
+    <div class="home">
+    <img alt="Fipuzor Logo" src="../assets/logo_fipuzor.png">
+  </div>
+    <!--Forma za signup i signup botun-->
+   <!--Pomocu v-modela cemo bindati input i moći ćemo pohraniti te varijable i pristupiti im kroz kod.-->
   <form name="signup-form">
     <div class="mb-3">
       <label for="email">Email: </label>
@@ -12,11 +16,11 @@
     <button class="btn btn-outline-dark" type="submit" @click.prevent="signup()">
       Signup
     </button>
-    <router-link to="/login" class="btn btn-outline-dark">Login</router-link>
+    <p>Already have an account? <router-link to="/login" class="btn btn-outline-dark">Login</router-link></p>
     
     <!-- Test for printing email/password variables -->
-    <p>Email is: {{ input.email }}</p>
-    <p>Password is: {{ input.password }}</p>
+    <!--<p>Email is: {{ input.email }}</p> -->
+    <!--<p>Password is: {{ input.password }}</p> -->
 
     <!-- Display signup status message to the user -->
     <p v-if="signupStatusMessage">{{ signupStatusMessage }}</p>
