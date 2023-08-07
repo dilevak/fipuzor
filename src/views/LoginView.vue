@@ -45,6 +45,8 @@ export default {
       if (this.input.username !== '' && this.input.password !== '') {
         console.log('authenticated');
         this.loginStatusMessage = ''; //Ne prikazivanje "authenticated" statusa useru
+
+        this.$router.push('/dashboard'); //Routaj na dashboard nakon successful logina
       } else {
         console.log('Username and Password cannot be empty');
         this.loginStatusMessage = 'Username and Password cannot be empty'; // Greska koja se ispisuje korisniku
