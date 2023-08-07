@@ -1,3 +1,7 @@
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
 <template>
     <div class="home">
     <img alt="Fipuzor Logo" src="../assets/logo_fipuzor.png">
@@ -13,11 +17,9 @@
       <label for="password">Password: </label>
       <input type="password" id="password" v-model="input.password" />
     </div>
-    <button class="btn btn-outline-dark" type="submit" @click.prevent="login()">
-      Login
-    </button>
+    <button class="btn btn-primary" type="submit" @click.prevent="login()">Login</button>
 
-    <p>Don't have an account yet? <router-link to="/Signup" class="btn btn-outline-dark" exact>Signup</router-link></p>
+    <p>Don't have an account yet? <router-link to="/Signup" class="btn btn-success" exact>Signup</router-link></p>
     
     <!-- Prikaz login status poruke korisniku -->
     <p v-if="loginStatusMessage">{{ loginStatusMessage }}</p>

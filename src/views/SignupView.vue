@@ -13,10 +13,10 @@
       <label for="password">Password: </label>
       <input type="password" id="password" v-model="input.password" />
     </div>
-    <button class="btn btn-outline-dark" type="submit" @click.prevent="signup()">
+    <button class="btn btn-outline-success" type="submit" @click.prevent="signup()">
       Signup
     </button>
-    <p>Already have an account? <router-link to="/login" class="btn btn-outline-dark">Login</router-link></p>
+    <p>Already have an account? <router-link to="/login" class="btn btn-primary">Login</router-link></p>
     
     <!-- Test for printing email/password variables -->
     <!--<p>Email is: {{ input.email }}</p> -->
