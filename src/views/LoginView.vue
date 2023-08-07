@@ -14,10 +14,8 @@
       Login
     </button>
 
-    <router-link to="/signup" class="btn btn-outline-dark" exact>Signup</router-link>
-
-
-
+    <router-link to="/Signup" class="btn btn-outline-dark" exact>Signup</router-link>
+    
     <!-- Prikaz login status poruke korisniku -->
     <p v-if="loginStatusMessage">{{ loginStatusMessage }}</p>
   </form>

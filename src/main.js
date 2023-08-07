@@ -1,6 +1,7 @@
 import { createApp } from 'vue';
 import App from './App.vue';
-import router from "./router";
+//import router from "./router";
+import router from './router'
 //import { createRouter, createWebHistory } from 'vue-router';
 
 //import SignupView from './views/SignupView.vue';
@@ -15,8 +16,8 @@ const router = createRouter({
       { path: '/LoginView', component: LoginView }, //Ruta za Login page
     ],
   });
-*/  
+*/
 
-const app = createApp(App);
+const app = createApp(App).use(router);
 app.use(router);
 app.mount('#app');

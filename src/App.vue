@@ -1,22 +1,15 @@
 <template>
-   <!-- <h1>Welcome to</h1>-->
-  <img alt="Vue logo" src="./assets/logo_fipuzor.png">
-  <div id="app">
-    <!-- Your other content here -->
-    <home-page></home-page> <!-- Add the home-page component -->
-  </div>
-  <LoginView/>
-  <SignupView/>
-</template>
+
+<router-view/>
+  
+ </template>
 
 <script>
-import LoginView from './views/LoginView.vue'
-
-
+//import LoginView from './views/LoginView.vue'
 export default {
   name: 'App',
   components: {
-    LoginView, //Importamo komponente koje zelimo prikazati
+    //LoginView, //Importamo komponente koje zelimo prikazati
   },
   // ... other options and logic
 };
@@ -29,8 +22,18 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
-  background-color: #4f9d5d;
+}
 
+nav {
+  padding: 30px;
+}
+
+nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+nav a.router-link-exact-active {
+  color: #42b983;
 }
 </style>
