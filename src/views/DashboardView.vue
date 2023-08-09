@@ -2,58 +2,81 @@
   <div class="home">
     <img alt="Fipuzor Logo" src="../assets/logo_fipuzor_smaller.png">
   </div>
-  <div>
-    <h2>Welcome to Fipuzor Card Dashboard</h2>
+  
+  <h2>Welcome to Fipuzor Card Dashboard</h2>
 
-      <!--Kontenjer za prikaz kartice - @click event-->
-    <div class="card-container">
-      <div
-        v-for="(card, index) in cards"
-        :key="index"
-        :class="{ 'loyalty-card': true, 'expanded': card.expanded }"
-        @click="toggleCardExpansion(card)"
-        >
-        <img :src="card.logo" alt="Card Logo" class="card-logo">
-        <h3>{{ card.name }} Card</h3>
-        <p>Card Number: {{ card.cardNumber }}</p>
-        <p>Expire Date: {{ card.expireDate }}</p>
-      </div>
+  <!-- Kontenjer za prikaz kartice - @click event -->
+  <div class="card-container">
+    <div
+      v-for="(card, index) in cards"
+      :key="index"
+      :class="{ 'loyalty-card': true, 'expanded': card.expanded }"
+      @click="toggleCardExpansion(card)"
+    >
+      <img :src="card.logo" alt="Card Logo" class="card-logo">
+      <h3>{{ card.name }}</h3>
+      <p>Card Number: {{ card.cardNumber }}</p>
+      <p>Expire Date: {{ card.expireDate }}</p>
     </div>
-
-    <button class="btn btn-success btn-circle" @click="addCard"><i class="bi bi-plus"></i></button>
+    <!-- Ako nema dodanih kartica prikazi ovo -->
+    <div v-if="cards.length === 0" class="empty-card">
+      No cards added yet.
+    </div>
   </div>
+
+  <!-- Add card botun -->
+  <button class="btn btn-success btn-circle" @click="openAddCard"><i class="bi bi-plus"></i></button>
+
+  <!-- AddCard komponenta -->
+  <AddCard v-if="showAddCard" @card-added="handleCardAdded" @close-modal="closeAddCard" />
 </template>
 
 <script>
+import AddCard from "@/components/AddCard.vue"; // Importanje AddCard komponente
+
 export default {
+  components: {
+    AddCard,
+  },
   data() {
     return {
-      cards: [
-        {
-          name: "Lidl",
-          cardNumber: "1234-5678-9012",
-          expireDate: "12/25",
-          logo: "/CardLogos/lidl.jpg",
-          expanded: false,
-        },
-        {
-          name: "Pevex",
-          cardNumber: "9012-8765-1243",
-          expireDate: "05/24",
-          logo: "/CardLogos/pevex.png",
-          expanded: false,
-        },
-        //Dodaj jos kartica za test prikaza
-      ],
+      showAddCard: false,
+      cards: [],
+      
     };
   },
   methods: {
-    addCard() {
-      // Add card komponenta
+    
+
+    openAddCard() {
+      this.showAddCard = true;
     },
-    //toggle na klik (@click eventom), card.expanded se mjenja klikanjem (pomocu ! operatora) 
+
+    closeAddCard() {
+      this.showAddCard = false;
+    },
+
     toggleCardExpansion(card) {
       card.expanded = !card.expanded;
+    },
+
+    handleCardAdded(newCardData) {
+    const newCard = {
+      name: newCardData.selectedStore + " Card", //Ime odabranog stora (from event data)  + Card
+      cardNumber: newCardData.cardNumber,
+      expireDate: newCardData.expireDate,
+      logo: this.getLogoPath(newCardData.selectedStore), //ime odobranog stora (from event data) za postavljanje loga automatski
+      expanded: false,
+    };
+      //Dodaj novu karticu u array
+      this.cards.push(newCard);
+
+      //Zatvori nakon dodavanja kartice
+      this.showAddCard = false;
+    },
+    //Funkcija za dobivanje patha prema logu nakon odabranog stora
+    getLogoPath(store) {
+      return require(`@/assets/CardLogos/${store.toLowerCase()}.png`);
     },
   },
 };
@@ -93,4 +116,17 @@ export default {
   margin-bottom: 1rem;
 }
 
+.empty-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-right: 1rem;
+  width: 300px;
+  flex-shrink: 0;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  color: #6c757d;
+}
 </style>
