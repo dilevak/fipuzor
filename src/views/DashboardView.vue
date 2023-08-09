@@ -33,17 +33,17 @@ export default {
           name: "Lidl",
           cardNumber: "1234-5678-9012",
           expireDate: "12/25",
-          logo: "../assets/fipuzor_logo.png",
+          logo: "/CardLogos/lidl.jpg",
           expanded: false,
         },
         {
           name: "Pevex",
           cardNumber: "9012-8765-1243",
           expireDate: "05/24",
-          logo: "../assets/fipuzor_logo.png",
+          logo: "/CardLogos/pevex.png",
           expanded: false,
         },
-        // Add more card objects here
+        //Dodaj jos kartica za test prikaza
       ],
     };
   },
@@ -86,11 +86,11 @@ export default {
 .loyalty-card.expanded {
   width: 500px;
 }
-/**
+
 .card-logo {
   max-width: 100px;
   height: auto;
   margin-bottom: 1rem;
 }
-*/
+
 </style>
