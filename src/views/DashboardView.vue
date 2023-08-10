@@ -4,7 +4,7 @@
   </div>
   
   <h2>Welcome to Fipuzor Card Dashboard</h2>
-
+  
   <!-- Kontenjer za prikaz kartice - @click event -->
   <div class="card-container">
     <div
@@ -27,8 +27,10 @@
   <!-- Add card botun -->
   <button class="btn btn-success btn-circle" @click="openAddCard"><i class="bi bi-plus"></i></button>
 
-  <!-- AddCard komponenta -->
-  <AddCard v-if="showAddCard" @card-added="handleCardAdded" @close-modal="closeAddCard" />
+  <!-- AddCard komponenta nakon pritiska "Add Card" botuna -->
+  <div v-if="showAddCard" class="add-card-overlay">
+    <AddCard @card-added="handleCardAdded" @close-modal="closeAddCard" />
+  </div>
 </template>
 
 <script>
@@ -83,10 +85,23 @@ export default {
 </script>
 
 <!--.cards-container kontenjer za storanje kartica-->
+<!--.add-card-overlay style ya prikay add card metode nakon pritiska na gumb-->
 <!--Display:flex poslozi kartice u red, overflow-x: auto skrolanje preko sirine kontenjera-->
 <!--.loyalty-card kontenjer za jednu karticu (cursor: pointer mjenja kursor kod hoveranja iznad kartice)-->
 <!--.loyalty-card.ecpanded stajling kartice nakon expanda-->
 <style scoped>
+.add-card-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999; /* Place above other content */
+}
 .card-container {
   display: flex; 
   flex-wrap: nowrap;
