@@ -6,22 +6,26 @@
   <h2>Welcome to Fipuzor Card Dashboard</h2>
   
   <!-- Kontenjer za prikaz kartice - @click event -->
-  <div class="card-container">
-    <div
-      v-for="(card, index) in cards"
-      :key="index"
-      :class="{ 'loyalty-card': true, 'expanded': card.expanded }"
-      @click="toggleCardExpansion(card)"
-    >
-      <img :src="card.logo" alt="Card Logo" class="card-logo">
-      <h3>{{ card.name }}</h3>
-      <p>Card Number: {{ card.cardNumber }}</p>
-      <p>Expire Date: {{ card.expireDate }}</p>
+  <div class="card-container-wrapper">
+    <div class="card-container">
+      <div
+        v-for="(card, index) in cards"
+        :key="index"
+        :class="{ 'loyalty-card': true, 'expanded': card.expanded }"
+        @click="toggleCardExpansion(card)"
+      >
+        <img :src="card.logo" alt="Card Logo" class="card-logo">
+        <h3>{{ card.name }}</h3>
+        <p>Card Number: {{ card.cardNumber }}</p>
+        <p>Expire Date: {{ card.expireDate }}</p>
+      </div>
+      <!-- Ako nema dodanih kartica prikazi ovo -->
+      <div v-if="cards.length === 0" class="empty-card">
+        No cards added yet.
+      </div>
+      <div class="added-cards-text-square">Added Cards</div>
     </div>
-    <!-- Ako nema dodanih kartica prikazi ovo -->
-    <div v-if="cards.length === 0" class="empty-card">
-      No cards added yet.
-    </div>
+    
   </div>
 
   <!-- Add card botun -->
@@ -90,23 +94,33 @@ export default {
 <!--.loyalty-card kontenjer za jednu karticu (cursor: pointer mjenja kursor kod hoveranja iznad kartice)-->
 <!--.loyalty-card.ecpanded stajling kartice nakon expanda-->
 <style scoped>
+
+.card-container-wrapper {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+}
 .add-card-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999; /* Place above other content */
+  z-index: 999; /*Postavljanje iznad svega*/
 }
 .card-container {
   display: flex; 
   flex-wrap: nowrap;
   overflow-x: auto;
   padding: 1rem;
+  border: 2px solid #0da540;
+  border-radius: 8px;
+  padding: 1rem;
+  flex-grow: 1;
 }
 
 .loyalty-card {
@@ -143,5 +157,17 @@ export default {
   flex-shrink: 0;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   color: #6c757d;
+}
+
+.added-cards-text-square {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #199a24;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-top-left-radius: 8px;
+  font-weight: bold;
+  z-index: 1;
 }
 </style>
