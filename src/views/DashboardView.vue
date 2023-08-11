@@ -116,7 +116,7 @@ export default {
   display: flex; 
   flex-wrap: nowrap;
   overflow-x: auto;
-  padding: 1rem;
+  padding: 6rem 1rem;;
   border: 2px solid #0da540;
   border-radius: 8px;
   padding: 1rem;
