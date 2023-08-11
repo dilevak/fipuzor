@@ -3,11 +3,11 @@
 </head>
 
 <template>
-    <div class="home">
+  <div class="home">
     <img alt="Fipuzor Logo" src="../assets/logo_fipuzor.png">
   </div>
-  <!--Forma za login i login botun-->
-  <!--Pomocu v-modela cemo bindati input i moći ćemo pohraniti te varijable i pristupiti im kroz kod.-->
+  <!-- Forma za login i login botun -->
+  <!-- Pomocu v-modela cemo bindati input i moći ćemo pohraniti te varijable i pristupiti im kroz kod. -->
   <form name="login-form">
     <div class="mb-3">
       <label for="username">Username: </label>
@@ -17,7 +17,7 @@
       <label for="password">Password: </label>
       <input type="password" id="password" v-model="input.password" />
     </div>
-    <button class="btn btn-primary" type="submit" @click.prevent="login()">Login</button>
+    <button class="btn btn-primary" type="submit" @click.prevent="login">Login</button>
 
     <p>Don't have an account yet? <router-link to="/Signup" class="btn btn-success" exact>Signup</router-link></p>
     
@@ -26,7 +26,9 @@
   </form>
 </template>
 
+
 <script>
+import axios from 'axios';
 
 export default {
   name: 'LoginView',
@@ -36,20 +38,29 @@ export default {
         username: '',
         password: '',
       },
-      loginStatusMessage: '', //Za spremanje login status poruke
+      loginStatusMessage: '', // Za spremanje login status poruke
     };
   },
   methods: {
-    login() {
-      // Make sure both username and password are not empty
-      if (this.input.username !== '' && this.input.password !== '') {
-        console.log('authenticated');
-        this.loginStatusMessage = ''; //Ne prikazivanje "authenticated" statusa useru
+    async login() {
+      try {
+        const response = await axios.post('http://localhost:3000/api/login', {
+          username: this.input.username,
+          password: this.input.password,
+        });
 
-        this.$router.push('/dashboard'); //Routaj na dashboard nakon successful logina
-      } else {
-        console.log('Username and Password cannot be empty');
-        this.loginStatusMessage = 'Username and Password cannot be empty'; // Greska koja se ispisuje korisniku
+        if (response.data.success) {
+          // Login successful, redirect to dashboard
+          this.loginStatusMessage = 'Login successful';
+          this.$router.push('/dashboard');
+        } else {
+          // Login failed, show error message
+          this.loginStatusMessage = 'Login failed';
+        }
+      } catch (error) {
+        // Handle error, e.g., show error message
+        this.loginStatusMessage = 'An error occurred';
+        console.error('An error occurred:', error);
       }
     },
   },
