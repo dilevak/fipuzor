@@ -22,46 +22,49 @@
   </template>
   
   <script>
-import axios from 'axios';
-
-export default {
-  name: 'SignUpForm',
-  data() {
-    return {
-      input: {
-        username: '',
-        email: '',
-        password: '',
-      },
-      signupStatusMessage: '',
-    };
-  },
-  methods: {
-    async signup() {
-      try {
-        if (this.input.username !== '' && this.input.email !== '' && this.input.password !== '') {
-          const response = await axios.post('http://localhost:3000/api/signup', {
-            username: this.input.username,
-            email: this.input.email,
-            password: this.input.password,
-          });
-
-          if (response.data.success) {
-            console.log('User registered');
-            this.signupStatusMessage = 'User registered';
-          } else {
-            console.log('Registration failed');
-            this.signupStatusMessage = 'Registration failed';
-          }
-        } else {
-          console.log('Username, Email, and Password cannot be empty');
-          this.signupStatusMessage = 'Username, Email, and Password cannot be empty';
-        }
-      } catch (error) {
-        console.error('An error occurred:', error);
-        this.signupStatusMessage = 'An error occurred';
-      }
+  import axios from 'axios';
+  
+  export default {
+    name: 'SignUpForm',
+    data() {
+      return {
+        input: {
+          username: '',
+          email: '',
+          password: '',
+        },
+        signupStatusMessage: '',
+      };
     },
-  },
-};
-</script>
+    methods: {
+      async signup() {
+        try {
+          if (this.input.username !== '' && this.input.email !== '' && this.input.password !== '') {
+            const response = await axios.post('http://localhost:3000/api/signup', {
+              username: this.input.username,
+              email: this.input.email,
+              password: this.input.password,
+            });
+  
+            if (response.data.success) {
+              console.log('User registered');
+              this.signupStatusMessage = 'User registered';
+  
+              //Ako je signup uspjesan prebaci na login
+              this.$router.push('/login');
+            } else {
+              console.log('Registration failed');
+              this.signupStatusMessage = 'Registration failed';
+            }
+          } else {
+            console.log('Username, Email, and Password cannot be empty');
+            this.signupStatusMessage = 'Username, Email, and Password cannot be empty';
+          }
+        } catch (error) {
+          console.error('An error occurred:', error);
+          this.signupStatusMessage = 'An error occurred';
+        }
+      },
+    },
+  };
+  </script>  
