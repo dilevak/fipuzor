@@ -3,7 +3,7 @@
     <img alt="Fipuzor Logo" src="../assets/logo_fipuzor_smaller.png">
   </div>
   
-  <h2>Welcome to Fipuzor Card Dashboard</h2>
+ <h2>Welcome {{ loggedInUsername }} to Fipuzor card dashboard</h2>
   
   <!-- Kontenjer za prikaz kartice - @click event -->
   <div class="card-container-wrapper">
@@ -39,6 +39,8 @@
 
 <script>
 import AddCard from "@/components/AddCard.vue"; // Importanje AddCard komponente
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 export default {
   components: {
@@ -48,11 +50,39 @@ export default {
     return {
       showAddCard: false,
       cards: [],
+      loggedInUsername: '',
       
     };
   },
+    created() {
+    // Dohvacanje username-a iz browser cookija
+    this.loggedInUsername = Cookies.get('loggedInUsername');
+  },
   methods: {
     
+    async login() {
+      try {
+        const response = await axios.post('http://localhost:3000/api/login', {
+          username: this.input.username,
+          password: this.input.password,
+        });
+
+        if (response.data.success) {
+          // Login successful, update the username and redirect to dashboard
+          this.loginStatusMessage = 'Login successful';
+          this.loggedInUsername = this.input.username; // Store the username
+          this.$router.push('/dashboard');
+        } else {
+          // Login failed, show error message
+          this.loginStatusMessage = 'Login failed';
+        }
+      } catch (error) {
+        // Handle error, e.g., show error message
+        this.loginStatusMessage = 'An error occurred';
+        console.error('An error occurred:', error);
+      }
+    },
+  
 
     openAddCard() {
       this.showAddCard = true;

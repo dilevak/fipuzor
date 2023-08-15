@@ -29,7 +29,6 @@
 
 <script>
 import axios from 'axios';
-import Cookies from 'js-cookie';
 
 export default {
   name: 'LoginView',
@@ -51,10 +50,8 @@ export default {
         });
 
         if (response.data.success) {
-          // Login successful, update the username and redirect to dashboard
-          this.loginStatusMessage = `Login successful!`;
-          this.loggedInUsername = this.input.username;
-          Cookies.set('loggedInUsername', this.loggedInUsername);
+          // Login successful, redirect to dashboard
+          this.loginStatusMessage = 'Login successful';
           this.$router.push('/dashboard');
         } else {
           // Login failed, show error message
