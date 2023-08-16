@@ -30,6 +30,7 @@
 <script>
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { mapMutations } from 'vuex';
 
 export default {
   name: 'LoginView',
@@ -43,6 +44,7 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(['setUserID', 'addCard']),
     async login() {
       try {
         const response = await axios.post('http://localhost:3000/api/login', {
@@ -51,17 +53,20 @@ export default {
         });
 
         if (response.data.success) {
-          // Login successful, update the username and redirect to dashboard
           this.loginStatusMessage = `Login successful!`;
           this.loggedInUsername = this.input.username;
           Cookies.set('loggedInUsername', this.loggedInUsername);
+          this.setUserID(response.data.userID); // Store the user ID in Vuex
+          console.log('UserID from response:', response.data.userID);
+          Cookies.set('userID', response.data.userID);
+          console.log('UserID cookie set:', Cookies.get('userID'));
           this.$router.push('/dashboard');
         } else {
-          // Login failed, show error message
+          //Login failed, show error message
           this.loginStatusMessage = 'Login failed';
         }
+
       } catch (error) {
-        // Handle error, e.g., show error message
         this.loginStatusMessage = 'An error occurred';
         console.error('An error occurred:', error);
       }

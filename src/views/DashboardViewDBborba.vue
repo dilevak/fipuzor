@@ -3,7 +3,7 @@
     <img alt="Fipuzor Logo" src="../assets/logo_fipuzor_smaller.png">
   </div>
   
- <h2>Hello {{ loggedInUsername }}, Welcome to Fipuzor dashboard</h2>
+ <h2>Welcome {{ loggedInUsername }} to Fipuzor card dashboard</h2>
   
   <!-- Kontenjer za prikaz kartice - @click event -->
   <div class="card-container-wrapper">
@@ -123,22 +123,21 @@ export default {
       name: newCardData.selectedStore + " Card", //Ime odabranog stora (from event data)  + Card
       cardNumber: newCardData.cardNumber,
       expireDate: newCardData.expireDate,
-      logo: this.getLogoPath(newCardData.selectedStore), //ime odobranog stora (from event data) za postavljanje loga automatski
+      selectedStore: newCardData.selectedStore,
+      //logo: this.getLogoPath(newCardData.selectedStore), //ime odobranog stora (from event data) za postavljanje loga automatski
       expanded: false,
     };
       axios.post('http://localhost:3000/api/cards', newCard)
-  .then(response => {
-    if (response.data.success) {
-      this.cards.push(newCard); // Add the new card to the local array
-      console.log('Card added successfully:', response.data.message);
-    } else {
-      console.log('Failed to add card:', response.data.message);
-    }
-  })
-  .catch(error => {
-    console.error('An error occurred:', error);
-  });
-
+        .then(response => {
+          if (response.data.success) {
+            this.cards.push(newCard); // Add the new card to the local array
+          } else {
+            // Handle card insertion failure
+          }
+        })
+        .catch(error => {
+          console.error('An error occurred:', error);
+        });
       //Dodaj novu karticu u array
       this.cards.push(newCard);
 
