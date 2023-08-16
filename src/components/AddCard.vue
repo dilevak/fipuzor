@@ -31,6 +31,8 @@
           </div>
         </div>
         <button type="submit" class="btn btn-primary">Add Card</button>
+      <!--Botun za zatvaranje-->
+      <button class="btn btn-danger" @click="closeModal">Close</button>
       </form>
     </div>
   </div>
@@ -75,6 +77,10 @@ export default {
     this.$emit("close-modal");
   }
     },
+    closeModal() {
+    this.$emit("close-modal");
+  },
+
   },
 };
 </script>

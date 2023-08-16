@@ -1,10 +1,24 @@
 <template>
   <div class="home">
-    <img alt="Fipuzor Logo" src="../assets/logo_fipuzor_smaller.png">
+  <img alt="Fipuzor Logo" src="../assets/logo_fipuzor_smaller.png">
   </div>
   
  <h2>Hello {{ loggedInUsername }}, Welcome to Fipuzor dashboard</h2>
   
+<!-- Hamburger menu button -->
+<div class="hamburger-menu" @click="toggleMenu">
+  <div class="bar"></div>
+  <div class="bar"></div>
+  <div class="bar"></div>
+  </div>
+<!-- Dropdown menu -->
+<div v-show="showMenu" class="dropdown-menu">
+<ul>
+<li @click="logout">Logout</li>
+<li>About</li>
+</ul>
+</div>
+
   <!-- Kontenjer za prikaz kartice - @click event -->
   <div class="card-container-wrapper">
     <div class="card-container">
@@ -56,7 +70,8 @@ export default {
       showAddCard: false,
       cards: [],
       loggedInUsername: '',
-      userID: '', // Storanje userID-a
+      userID: '', //Storanje userID-a
+      showMenu: false,
     };
   },
   created() {
@@ -110,6 +125,7 @@ export default {
     },
 
     closeAddCard() {
+      console.log("Closing add card modal");
       this.showAddCard = false;
     },
 
@@ -148,6 +164,13 @@ export default {
     //Funkcija za dobivanje patha prema logu nakon odabranog stora
     getLogoPath(store) {
       return require(`@/assets/CardLogos/${store.toLowerCase()}.png`);
+    },
+    //Menu
+    toggleMenu() {
+      this.showMenu = !this.showMenu;
+    },
+    //Logout i redirect na pocetnu/login, clear cookies??
+    logout() {
     },
   },
 };
@@ -234,5 +257,50 @@ export default {
   border-top-left-radius: 8px;
   font-weight: bold;
   z-index: 1;
+}
+
+/*Hamburger meni stil*/
+.hamburger-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 20px;
+  cursor: pointer;
+  z-index: 2;
+  margin: 1rem;
+}
+
+.bar {
+  width: 30px;
+  height: 4px;
+  background-color: #333;
+}
+
+/*Dropdown menu stil*/
+.dropdown-menu {
+  position: absolute;
+  top: 60px; /*Podesavanje top pozicije*/
+  left: 20px; /*Podesavanje left pozicije*/
+  background-color: #fff;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  z-index: 1;
+  display: none;
+}
+
+.dropdown-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-menu li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown-menu li:hover {
+  background-color: #f8f9fa;
 }
 </style>
