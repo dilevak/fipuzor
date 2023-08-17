@@ -55,11 +55,11 @@
 import AddCard from "@/components/AddCard.vue"; // Importanje AddCard komponente
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
   computed: {
-    ...mapState(['userID', 'cards']),
+    ...mapState(['userID', 'cards', 'isAuthenticated']),
   },
 
   components: {
@@ -81,7 +81,8 @@ export default {
     this.fetchUserCards();
   },
   methods: {
-  
+  ...mapMutations(['setIsAuthenticated', 'setUserID', 'addCard']),
+
     async fetchUserCards() {
       try {
         console.log('Fetching user cards for userID:', this.userID); //Test linija
@@ -171,7 +172,20 @@ export default {
     },
     //Logout i redirect na pocetnu/login, clear cookies??
     logout() {
+      Cookies.remove('loggedInUsername');
+      Cookies.remove('userID');
+      this.setIsAuthenticated(false); // Set isAuthenticated to false
+      this.setUserID(null);
+      this.cards = [];
+      this.$router.push('/login');
     },
+  },
+  beforeRouteEnter(to, from, next) {
+    if (Cookies.get('userID')) {
+      next(); // User is authenticated, proceed to the dashboard
+    } else {
+      next('/login'); // User is not authenticated, redirect to login
+    }
   },
 };
 </script>

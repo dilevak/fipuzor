@@ -4,6 +4,7 @@ export default createStore({
   state: {
     userID: null,
     cards: [],
+    isAuthenticated: false,
   },
   mutations: {
     setUserID(state, userID) {
@@ -11,6 +12,9 @@ export default createStore({
     },
     addCard(state, card) {
       state.cards.push(card);
+    },
+    setIsAuthenticated(state, value) {
+        state.isAuthenticated = value;
     },
   },
 });

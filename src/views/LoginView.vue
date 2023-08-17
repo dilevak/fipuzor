@@ -44,7 +44,7 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(['setUserID', 'addCard']),
+    ...mapMutations(['setUserID', 'addCard', 'setIsAuthenticated']),
     async login() {
       try {
         const response = await axios.post('http://localhost:3000/api/login', {
@@ -53,6 +53,7 @@ export default {
         });
 
         if (response.data.success) {
+          this.setIsAuthenticated(true);
           this.loginStatusMessage = `Login successful!`;
           this.loggedInUsername = this.input.username;
           Cookies.set('loggedInUsername', this.loggedInUsername);
