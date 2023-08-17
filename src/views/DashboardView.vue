@@ -162,8 +162,15 @@ export default {
       logo: this.getLogoPath(newCardData.selectedStore), //ime odobranog stora (from event data) za postavljanje loga automatski
       expanded: false,
     };
-      axios.post('http://localhost:3000/api/cards', newCard)
-  .then(response => {
+    
+    //Validacija cardNumber polja - limitirano samo na brojeve
+    if (!/^\d+$/.test(newCard.cardNumber)) {
+    console.log('Invalid card number');
+    return;
+    } 
+    
+    axios.post('http://localhost:3000/api/cards', newCard)
+    .then(response => {
     if (response.data.success) {
       this.cards.push(newCard); // Add the new card to the local array
       console.log('Card added successfully:', response.data.message);

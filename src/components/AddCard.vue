@@ -13,10 +13,12 @@
             <option v-for="store in stores" :key="store">{{ store }}</option>
           </select>
         </div>
-        <div class="mb-3">
-          <label for="newCardNumber" class="form-label">Card Number:</label>
-          <input v-model="newCardNumber" id="newCardNumber" type="text" class="form-control" required>
-        </div>
+    <div class="mb-3">
+      <label for="newCardNumber" class="form-label">Card Number:</label>
+      <input v-model="newCardNumber" id="newCardNumber" type="text" class="form-control" required @input="validateCardNumber">
+      <p v-if="cardNumberError" class="text-danger">{{ cardNumberError }}</p>
+    </div>
+
         <div class="mb-3">
           <label class="form-label">Expire Date:</label>
           <div class="d-flex">
@@ -52,6 +54,7 @@ export default {
       newCardNumber: "",
       selectedMonth: "",
       selectedYear: "",
+      cardNumberError: "",
     };
   },
   computed: {
@@ -67,6 +70,15 @@ export default {
     },
   },
   methods: {
+
+    validateCardNumber() {
+      if (!/^\d+$/.test(this.newCardNumber)) {
+        this.cardNumberError = "Only numbers are accepted for card number";
+      } else {
+        this.cardNumberError = "";
+      }
+    },
+
     submitForm() {
   if (this.selectedStore && this.newCardNumber && this.selectedMonth && this.selectedYear) {
     this.$emit("card-added", {
