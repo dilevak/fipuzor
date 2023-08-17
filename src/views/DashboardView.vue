@@ -1,23 +1,25 @@
 <template>
-  <div class="home">
-  <img alt="Fipuzor Logo" src="../assets/logo_fipuzor_smaller.png">
-  </div>
-  
- <h2>Hello {{ loggedInUsername }}, Welcome to Fipuzor dashboard</h2>
-  
-<!-- Hamburger menu button -->
+
+  <!-- Hamburger menu button -->
 <div class="hamburger-menu" @click="toggleMenu">
   <div class="bar"></div>
   <div class="bar"></div>
   <div class="bar"></div>
   </div>
 <!-- Dropdown menu -->
-<div v-show="showMenu" class="dropdown-menu">
+<div v-show="showMenu" class="dropdown-menu show-menu">
 <ul>
 <li @click="logout">Logout</li>
 <li>About</li>
 </ul>
+<p>Dropdown Menu Content</p>
 </div>
+
+  <div class="home">
+  <img alt="Fipuzor Logo" src="../assets/logo_fipuzor_smaller.png">
+  </div>
+  
+ <h2>Hello {{ loggedInUsername }}, Welcome to Fipuzor dashboard</h2>
 
   <!-- Kontenjer za prikaz kartice - @click event -->
   <div class="card-container-wrapper">
@@ -32,6 +34,12 @@
         <h3>{{ card.name }}</h3>
         <p>Card Number: {{ card.cardNumber }}</p>
         <p>Expire Date: {{ card.expireDate }}</p>
+        <div class="card-details">
+        <!--QRCodeGenerator koja prikazuje generirani QR kod iz cardNumbera kad je kartica expandana-->
+        <p v-if="card.expanded" class="card-number"></p>
+        <QRCodeGenerator v-if="card.expanded" :card-number="card.cardNumber" />
+        </div>
+
       </div>
       <!-- Ako nema dodanih kartica prikazi ovo -->
       <div v-if="cards.length === 0" class="empty-card">
@@ -56,6 +64,8 @@ import AddCard from "@/components/AddCard.vue"; // Importanje AddCard komponente
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { mapState, mapMutations } from 'vuex';
+import QRCodeGenerator from "@/components/QRCodeGenerator.vue";
+
 
 export default {
   computed: {
@@ -64,6 +74,8 @@ export default {
 
   components: {
     AddCard,
+    QRCodeGenerator,
+
   },
   data() {
     return {
@@ -79,6 +91,7 @@ export default {
     this.loggedInUsername = Cookies.get('loggedInUsername');
     this.userID = Cookies.get('userID');
     this.fetchUserCards();
+      console.log('Initial showMenu value:', this.showMenu);
   },
   methods: {
   ...mapMutations(['setIsAuthenticated', 'setUserID', 'addCard']),
@@ -87,9 +100,14 @@ export default {
       try {
         console.log('Fetching user cards for userID:', this.userID); //Test linija
         const response = await axios.get('http://localhost:3000/api/cards/' + this.userID);
-        if (response.data.success) {
-        this.cards = response.data.cards;
-        } else {
+    if (response.data.success) {
+      this.cards = response.data.cards;
+
+      for (const card of this.cards) {
+        card.expanded = false;
+        card.qrCodeDataURL = await this.generateQRCode(card.cardNumber);
+      }
+    } else {
         // Handle error
         }
         } catch (error) {
@@ -168,6 +186,7 @@ export default {
     },
     //Menu
     toggleMenu() {
+      console.log('toggleMenu method called');
       this.showMenu = !this.showMenu;
     },
     //Logout i redirect na pocetnu/login, clear cookies??
@@ -291,16 +310,21 @@ export default {
   background-color: #333;
 }
 
-/*Dropdown menu stil*/
 .dropdown-menu {
   position: absolute;
-  top: 60px; /*Podesavanje top pozicije*/
-  left: 20px; /*Podesavanje left pozicije*/
+  top: 60px;
+  left: 20px;
   background-color: #fff;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
-  z-index: 1;
-  display: none;
+  z-index: 5;
+  opacity: 0; /* Initial opacity set to 0 */
+  transition: opacity 0.3s ease-in-out; /* Add transition for smooth opacity change */
+  padding: 10px; /* padding */
+}
+
+.show-menu {
+  opacity: 1;
 }
 
 .dropdown-menu ul {
@@ -317,4 +341,16 @@ export default {
 .dropdown-menu li:hover {
   background-color: #f8f9fa;
 }
+
+.qr-code {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.qr-code-left {
+  margin-right: 1rem; /* Add margin to separate QR code from card details */
+}
+
 </style>
