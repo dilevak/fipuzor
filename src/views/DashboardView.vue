@@ -1,19 +1,18 @@
 <template>
-
-  <!-- Hamburger menu button -->
-<div class="hamburger-menu" @click="toggleMenu">
-  <div class="bar"></div>
-  <div class="bar"></div>
-  <div class="bar"></div>
-  </div>
-<!-- Dropdown menu -->
-<div v-show="showMenu" class="dropdown-menu show-menu">
-<ul>
-<li @click="logout">Logout</li>
-<li>About</li>
-</ul>
-<p>Dropdown Menu Content</p>
-</div>
+    
+  <Slide>
+    <h2>Hello {{ loggedInUsername }}</h2>
+    <router-link to="/about">
+      <ul class="menu-list">
+        <li>About</li>
+      </ul>
+    </router-link>
+    <a id="Logout" href="#">
+      <ul class="menu-list">
+        <li @click="logout">Logout</li>
+      </ul>
+    </a>
+  </Slide>
 
   <div class="home">
   <img alt="Fipuzor Logo" src="../assets/logo_fipuzor_smaller.png">
@@ -65,6 +64,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { mapState, mapMutations } from 'vuex';
 import QRCodeGenerator from "@/components/QRCodeGenerator.vue";
+import { Slide } from 'vue3-burger-menu'  // import the CSS transitions you wish to use, in this case we are using `Slide`
 
 
 export default {
@@ -75,6 +75,7 @@ export default {
   components: {
     AddCard,
     QRCodeGenerator,
+    Slide
 
   },
   data() {
@@ -292,56 +293,6 @@ export default {
   z-index: 1;
 }
 
-/*Hamburger meni stil*/
-.hamburger-menu {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 30px;
-  height: 20px;
-  cursor: pointer;
-  z-index: 2;
-  margin: 1rem;
-}
-
-.bar {
-  width: 30px;
-  height: 4px;
-  background-color: #333;
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 60px;
-  left: 20px;
-  background-color: #fff;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-  z-index: 5;
-  opacity: 0; /* Initial opacity set to 0 */
-  transition: opacity 0.3s ease-in-out; /* Add transition for smooth opacity change */
-  padding: 10px; /* padding */
-}
-
-.show-menu {
-  opacity: 1;
-}
-
-.dropdown-menu ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.dropdown-menu li {
-  padding: 10px;
-  cursor: pointer;
-}
-
-.dropdown-menu li:hover {
-  background-color: #f8f9fa;
-}
-
 .qr-code {
   display: flex;
   flex-direction: column;
@@ -351,6 +302,23 @@ export default {
 
 .qr-code-left {
   margin-right: 1rem; /* Add margin to separate QR code from card details */
+}
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-list li {
+  padding: 10px;
+  cursor: pointer;
+  color: #fff; /* Set the text color for menu items */
+  transition: background-color 0.3s ease-in-out; /* Add transition for smooth color change */
+}
+
+.menu-list li:hover {
+  background-color: #555; /* Change the background color on hover */
 }
 
 </style>
