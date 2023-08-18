@@ -12,6 +12,21 @@
         <li @click="logout">Logout</li>
       </ul>
     </a>
+  <a id="FriendList" href="#">
+    <ul class="menu-list">
+      <li @click="fetchFriendList(loggedInUserID); showFriendList = true;">Friend List</li>
+    </ul>
+  </a>
+  <div v-if="showFriendList">
+    <ul>
+      <li v-for="friend in friends" :key="friend._id">{{ friend.username }}</li>
+    </ul>
+  </div>
+    <a id="AddFriend" href="#">
+      <ul class="menu-list">
+       <li @click="openAddFriend">Add Friends</li>
+      </ul>
+    </a>
   </Slide>
 
   <div class="home">
@@ -46,9 +61,15 @@
       </div>
       <div class="added-cards-text-square">Added Cards</div>
     </div>
-    
+ 
+  <!-- Add friend -->
+  <div v-if="showAddFriend" class="overlay">
+    <div class="popup">
+       <AddFriend :user-id="userID" @close-modal="closeAddFriend" />
+    </div>
+ 
+</div>
   </div>
-
   <!-- Add card botun -->
   <button class="btn btn-success btn-circle" @click="openAddCard"><i class="bi bi-plus"></i></button>
 
@@ -65,7 +86,7 @@ import Cookies from 'js-cookie';
 import { mapState, mapMutations } from 'vuex';
 import QRCodeGenerator from "@/components/QRCodeGenerator.vue";
 import { Slide } from 'vue3-burger-menu'  // import the CSS transitions you wish to use, in this case we are using `Slide`
-
+import AddFriend from "@/components/AddFriend.vue";
 
 export default {
   computed: {
@@ -75,7 +96,8 @@ export default {
   components: {
     AddCard,
     QRCodeGenerator,
-    Slide
+    Slide,
+    AddFriend
 
   },
   data() {
@@ -85,6 +107,8 @@ export default {
       loggedInUsername: '',
       userID: '', //Storanje userID-a
       showMenu: false,
+      showAddFriend: false,
+      friends: [],
     };
   },
   created() {
@@ -92,7 +116,7 @@ export default {
     this.loggedInUsername = Cookies.get('loggedInUsername');
     this.userID = Cookies.get('userID');
     this.fetchUserCards();
-      console.log('Initial showMenu value:', this.showMenu);
+    this.fetchFriendList();
   },
   methods: {
   ...mapMutations(['setIsAuthenticated', 'setUserID', 'addCard']),
@@ -206,6 +230,31 @@ export default {
       this.cards = [];
       this.$router.push('/login');
     },
+  
+      openAddFriend() {
+      this.showAddFriend = true;
+      },
+      closeAddFriend() {
+      this.showAddFriend = false;
+  },
+
+  //Dohvacanje friend list
+async fetchFriendList() {
+  try {
+    console.log('Fetching friend list for userID:', this.userID); // Test line
+    const response = await axios.get(`http://localhost:3000/api/friend-list/${this.userID}`);
+    if (response.data.success) {
+      this.friends = response.data.friends;
+      this.showFriendList = true; // Show the friend list when fetched
+    } else {
+      this.friends = [];
+      this.showFriendList = false;
+    }
+  } catch (error) {
+    console.error('An error occurred:', error);
+  }
+},
+
   },
   beforeRouteEnter(to, from, next) {
     if (Cookies.get('userID')) {
@@ -326,6 +375,30 @@ export default {
 
 .menu-list li:hover {
   background-color: #555; /* Change the background color on hover */
+}
+
+/* Overlay style za Addfriend popup */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/*Popup style*/
+.popup {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 100%;
 }
 
 </style>
