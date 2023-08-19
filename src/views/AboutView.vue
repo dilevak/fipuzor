@@ -5,11 +5,9 @@
     <Slide
     :closeOnNavigation="true"
     :noOverlay="true">
-    
-    <h2>Hello {{ loggedInUsername }}</h2>
     <router-link to="/dashboard">
       <ul class="menu-list">
-        <li>Back to Dashboard</li>
+        <li>Dashboard</li>
       </ul>
     </router-link>
     <a id="Logout" href="#">
@@ -17,25 +15,6 @@
         <li @click="logout">Logout</li>
       </ul>
     </a>
-    <!--Dodaj Frienda-->
-    <a id="AddFriend" href="#">
-      <ul class="menu-list">
-        <li @click="openAddFriend">Add Friends</li>
-      </ul>
-    </a>
-    <!--Friend Lista-->
-    <a id="FriendList" href="#">
-      <ul class="menu-list">
-        <li @click="openFriendList">Friend List</li>
-      </ul>
-    </a>
-    
-    <!--Prikazi friend listu -->
-    <div v-if="showFriendList">
-      <ul>
-        <li v-for="friend in friends" :key="friend._id">{{ friend.username }}</li>
-      </ul>
-    </div>
   </Slide>
 
 
@@ -81,7 +60,7 @@
 </template>
 
 <script>
-import { Slide } from 'vue3-burger-menu'
+import { Slide } from 'vue3-burger-menu';
 
 export default {
   name: 'AboutView',

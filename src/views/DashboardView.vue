@@ -93,7 +93,8 @@ import Cookies from 'js-cookie';
 import { mapState, mapMutations } from 'vuex';
 import QRCodeGenerator from "@/components/QRCodeGenerator.vue";
   // import the CSS transitions you wish to use, in this case we are using `Slide`
-import AddFriend from "@/components/AddFriend.vue";
+  import { Slide } from 'vue3-burger-menu';
+  import AddFriend from "@/components/AddFriend.vue";
 
 export default {
   computed: {
