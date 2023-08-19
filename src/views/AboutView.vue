@@ -1,9 +1,48 @@
 <template>
+    <div class="home">
+    <img alt="Fipuzor Logo" src="../assets/logo_fipuzor.png">
+    </div>
+    <Slide
+    :closeOnNavigation="true"
+    :noOverlay="true">
+    
+    <h2>Hello {{ loggedInUsername }}</h2>
+    <router-link to="/dashboard">
+      <ul class="menu-list">
+        <li>Back to Dashboard</li>
+      </ul>
+    </router-link>
+    <a id="Logout" href="#">
+      <ul class="menu-list">
+        <li @click="logout">Logout</li>
+      </ul>
+    </a>
+    <!--Dodaj Frienda-->
+    <a id="AddFriend" href="#">
+      <ul class="menu-list">
+        <li @click="openAddFriend">Add Friends</li>
+      </ul>
+    </a>
+    <!--Friend Lista-->
+    <a id="FriendList" href="#">
+      <ul class="menu-list">
+        <li @click="openFriendList">Friend List</li>
+      </ul>
+    </a>
+    
+    <!--Prikazi friend listu -->
+    <div v-if="showFriendList">
+      <ul>
+        <li v-for="friend in friends" :key="friend._id">{{ friend.username }}</li>
+      </ul>
+    </div>
+  </Slide>
+
+
   <div class="container mt-5">
     <div class="row">
       <div class="col-md-8 offset-md-2">
-        <div class="about">
-          <h1 class="display-4">Fipuzor</h1>
+        <div class="about"> 
           <p class="lead">
             Fipuzor is a loyalty card Vault. It got its name from the Faculty of Informatics in Pula,
             abbreviated as FIPU and the word trezor (eng. Vault).
@@ -42,8 +81,14 @@
 </template>
 
 <script>
+import { Slide } from 'vue3-burger-menu'
+
 export default {
   name: 'AboutView',
+  components: {
+  Slide,
+},
+
 };
 </script>
 
@@ -51,4 +96,24 @@ export default {
 .about {
   margin-bottom: 3rem;
 }
+
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-list li {
+  padding: 10px;
+  cursor: pointer;
+  color: #fff; /* Set the text color for menu items */
+  transition: background-color 0.3s ease-in-out; /* Add transition for smooth color change */
+}
+
+.menu-list li:hover {
+  background-color: #555; /* Change the background color on hover */
+}
+
+
 </style>

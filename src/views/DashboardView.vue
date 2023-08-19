@@ -1,6 +1,9 @@
 <template>
     
-  <Slide>
+  <Slide
+    :closeOnNavigation="true"
+    :noOverlay="true">
+    
     <h2>Hello {{ loggedInUsername }}</h2>
     <router-link to="/about">
       <ul class="menu-list">
@@ -12,28 +15,32 @@
         <li @click="logout">Logout</li>
       </ul>
     </a>
-  <a id="FriendList" href="#">
-    <ul class="menu-list">
-      <li @click="fetchFriendList(loggedInUserID); showFriendList = true;">Friend List</li>
-    </ul>
-  </a>
-  <div v-if="showFriendList">
-    <ul>
-      <li v-for="friend in friends" :key="friend._id">{{ friend.username }}</li>
-    </ul>
-  </div>
+    <!--Dodaj Frienda-->
     <a id="AddFriend" href="#">
       <ul class="menu-list">
-       <li @click="openAddFriend">Add Friends</li>
+        <li @click="openAddFriend">Add Friends</li>
       </ul>
     </a>
+    <!--Friend Lista-->
+    <a id="FriendList" href="#">
+      <ul class="menu-list">
+        <li @click="openFriendList">Friend List</li>
+      </ul>
+    </a>
+    
+    <!--Prikazi friend listu -->
+    <div v-if="showFriendList">
+      <ul>
+        <li v-for="friend in friends" :key="friend._id">{{ friend.username }}</li>
+      </ul>
+    </div>
   </Slide>
 
   <div class="home">
   <img alt="Fipuzor Logo" src="../assets/logo_fipuzor_smaller.png">
   </div>
   
- <h2>Hello {{ loggedInUsername }}, Welcome to Fipuzor dashboard</h2>
+ <h2>Welcome to Fipuzor dashboard</h2>
 
   <!-- Kontenjer za prikaz kartice - @click event -->
   <div class="card-container-wrapper">
@@ -85,7 +92,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { mapState, mapMutations } from 'vuex';
 import QRCodeGenerator from "@/components/QRCodeGenerator.vue";
-import { Slide } from 'vue3-burger-menu'  // import the CSS transitions you wish to use, in this case we are using `Slide`
+  // import the CSS transitions you wish to use, in this case we are using `Slide`
 import AddFriend from "@/components/AddFriend.vue";
 
 export default {
@@ -109,6 +116,7 @@ export default {
       showMenu: false,
       showAddFriend: false,
       friends: [],
+      showFriendList: false,
     };
   },
   created() {
@@ -237,6 +245,11 @@ export default {
       closeAddFriend() {
       this.showAddFriend = false;
   },
+
+  openFriendList() {
+      this.fetchFriendList(); // Fetch the friend list
+      this.showFriendList = true; // Show the friend list
+    },
 
   //Dohvacanje friend list
 async fetchFriendList() {
