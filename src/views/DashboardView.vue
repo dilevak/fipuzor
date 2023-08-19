@@ -59,7 +59,7 @@
         <!--QRCodeGenerator koja prikazuje generirani QR kod iz cardNumbera kad je kartica expandana-->
         <p v-if="card.expanded" class="card-number"></p>
         <QRCodeGenerator v-if="card.expanded" :card-number="card.cardNumber" />
-        </div>
+      </div>
 
       </div>
       <!-- Ako nema dodanih kartica prikazi ovo -->
@@ -79,11 +79,35 @@
   </div>
   <!-- Add card botun -->
   <button class="btn btn-success btn-circle" @click="openAddCard"><i class="bi bi-plus"></i></button>
+  <!-- Share card botun -->
+  <button class="btn btn-primary btn-circle" @click="openSharePopup"><i class="bi bi-share"></i></button>
+
 
   <!-- AddCard komponenta nakon pritiska "Add Card" botuna -->
   <div v-if="showAddCard" class="add-card-overlay">
     <AddCard @card-added="handleCardAdded" @close-modal="closeAddCard" />
   </div>
+
+  <!-- Share Card Popup prozor -->
+<div v-if="showSharePopup" class="overlay">
+  <div class="popup">
+    <h2>Share Card</h2>
+    <select v-model="selectedCard" class="card-dropdown">
+      <option v-for="card in cards" :key="card.cardNumber" :value="card.cardNumber">
+        {{ card.name }} - {{ card.cardNumber }}
+      </option>
+    </select>
+    <select v-model="selectedFriend" class="friend-dropdown">
+      <option v-for="friend in friends" :key="friend._id" :value="friend.username">
+        {{ friend.username }}
+      </option>
+    </select>
+    <button class="btn btn-primary" @click="shareCardWithFriend">Share</button>
+    <button class="btn btn-danger" @click="closeSharePopup">Cancel</button>
+  </div>
+</div>
+      <!--Status o sheranoj kartici-->
+      <div v-if="sharingStatus">{{ sharingStatus }}</div> 
 </template>
 
 <script>
@@ -118,6 +142,9 @@ export default {
       showAddFriend: false,
       friends: [],
       showFriendList: false,
+      showSharePopup: false,
+      //sharingStatus: "", //incijalizacija statusa
+      sharingStatus: '',
     };
   },
   created() {
@@ -268,8 +295,56 @@ async fetchFriendList() {
     console.error('An error occurred:', error);
   }
 },
+    openSharePopup() {
+    // Reset selected values for sharing
+    this.selectedCard = null;
+    this.selectedFriend = null;
+    this.showSharePopup = true;
+    },
 
-  },
+    closeSharePopup() {
+    this.showSharePopup = false;
+    },
+
+    shareCardWithFriend() {
+  if (this.selectedCard && this.selectedFriend) {
+    console.log('Selected card:', this.selectedCard);
+    const requestData = {
+      username: this.loggedInUsername,
+      friendUsername: this.selectedFriend,
+      cardId: this.selectedCard.toString(), //Convertaj cardId u string radi backend errora
+    };
+
+    console.log('Data Sent from Frontend:', requestData);
+
+    axios
+      .post('http://localhost:3000/api/share-card', requestData)
+      .then((response) => {
+        if (response.data.success) {
+          console.log('Card shared successfully:', response.data.message);
+          this.sharingStatus = "Card shared successfully!";
+          this.clearSharingStatusAfterDelay(); //Pozivanje metode za clear statusa
+          this.closeSharePopup();
+        } else {
+          console.log('Failed to share card:', response.data.message);
+          this.sharingStatus = "Failed to share card.";
+          this.clearSharingStatusAfterDelay(); //Pozivanje metode za clear statusa
+        }
+      })
+      .catch((error) => {
+        console.error('An error occurred:', error);
+        this.sharingStatus = "An error occurred.";
+        this.clearSharingStatusAfterDelay(); //Pozivanje metode za clear statusa
+      });
+  }
+},
+clearSharingStatusAfterDelay() {
+      setTimeout(() => {
+        this.sharingStatus = ''; //Makni status/info nakon nekog cremena
+      }, 2000); //milisekunde
+    },
+},
+
   beforeRouteEnter(to, from, next) {
     if (Cookies.get('userID')) {
       next(); // User is authenticated, proceed to the dashboard
@@ -413,6 +488,23 @@ async fetchFriendList() {
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   max-width: 500px;
   width: 100%;
+}
+
+.card-dropdown,
+.friend-dropdown {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.share-confirm-button,
+.share-cancel-button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 </style>
