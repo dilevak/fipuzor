@@ -106,6 +106,33 @@
     <button class="btn btn-danger" @click="closeSharePopup">Cancel</button>
   </div>
 </div>
+<!--Prikaz sheranih kartica logiranom useru-->
+<div class="shared-card-container-wrapper">
+  <div class="shared-card-container">
+    <div
+      v-for="(sharedCard, index) in sharedCards"
+      :key="index"
+      :class="{ 'loyalty-card': true, 'expanded': sharedCard.expanded }"
+      @click="toggleCardExpansion(sharedCard)"
+    >
+      <img :src="sharedCard.logo" alt="Card Logo" class="card-logo">
+      <h3>{{ sharedCard.name }}</h3>
+      <p>Card Number: {{ sharedCard.cardNumber }}</p>
+      <p>Expire Date: {{ sharedCard.expireDate }}</p>
+      <div class="card-details">
+        <p v-if="sharedCard.expanded" class="card-number"></p>
+        <QRCodeGenerator v-if="sharedCard.expanded" :card-number="sharedCard.cardNumber" />
+      </div>
+    </div>
+    <div v-if="sharedCards.length === 0" class="empty-card">
+      No shared cards available.
+    </div>
+    <div class="shared-cards-text-square">Shared Cards</div>
+  </div>
+</div>
+
+
+
       <!--Status o sheranoj kartici-->
       <div v-if="sharingStatus">{{ sharingStatus }}</div> 
 </template>
@@ -116,9 +143,9 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { mapState, mapMutations } from 'vuex';
 import QRCodeGenerator from "@/components/QRCodeGenerator.vue";
-  // import the CSS transitions you wish to use, in this case we are using `Slide`
-  import { Slide } from 'vue3-burger-menu';
-  import AddFriend from "@/components/AddFriend.vue";
+// import the CSS transitions you wish to use, in this case we are using `Slide`
+import { Slide } from 'vue3-burger-menu';
+import AddFriend from "@/components/AddFriend.vue";
 
 export default {
   computed: {
@@ -145,6 +172,7 @@ export default {
       showSharePopup: false,
       //sharingStatus: "", //incijalizacija statusa
       sharingStatus: '',
+      sharedCards: [],
     };
   },
   created() {
@@ -153,6 +181,7 @@ export default {
     this.userID = Cookies.get('userID');
     this.fetchUserCards();
     this.fetchFriendList();
+    this.fetchSharedCards();
   },
   methods: {
   ...mapMutations(['setIsAuthenticated', 'setUserID', 'addCard']),
@@ -343,6 +372,24 @@ clearSharingStatusAfterDelay() {
         this.sharingStatus = ''; //Makni status/info nakon nekog cremena
       }, 2000); //milisekunde
     },
+
+    async fetchSharedCards() {
+  try {
+    console.log('Fetching shared cards for friendId:', this.userID);
+    const response = await axios.get(`http://localhost:3000/api/shared-cards/${this.userID}`);
+    if (response.data.success) {
+      this.sharedCards = response.data.sharedCards;
+      for (const sharedCard of this.sharedCards) {
+        sharedCard.expanded = false;
+        // You might also want to generate QR codes or perform other tasks here
+      }
+    } else {
+      console.log('No shared cards found for friendId:', this.userID);
+    }
+  } catch (error) {
+    console.error('An error occurred:', error);
+  }
+},
 },
 
   beforeRouteEnter(to, from, next) {
