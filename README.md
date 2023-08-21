@@ -7,8 +7,9 @@
 * Dino Levak
 
 # Kratki opis funkcionalnosti:
-Ciljana skupina kojoj je Fipuzor namijenjen obuhvaća su sve osobe koje koriste kartice vjernosti (loyalty kartice) raynih trgovina.
-Fipuzor slu\i kao trezor za spremanje kartica vjernosti. Uz Fipuzor ćete imati ultra lagani novcanik jer s Fipuzor aplikacijom aplikacijom 
+Ciljana skupina kojoj je Fipuzor namijenjen obuhvaća su sve osobe koje koriste kartice vjernosti (eng. loyalty kartice) raznih trgovina.
+Fipuzor trenutno podrzava akrtice vjernosti 15 trgovina navednig na about stranici.
+Fipuzor sluzi kao trezor za spremanje kartica vjernosti. Uz Fipuzor ćete imati ultra lagani novcanik jer s Fipuzor aplikacijom aplikacijom 
 možete zamijeniti više plastičnih kartica koje inace nosite u novcaniku.
 Informacije o kartici se rucno pohranjuju u a aplikaciju, te se nakon toga kreira virtualna replike te kartice s QR kodom kojeg onda
 blagajnik skenira umjesot fiyicke kartice.
