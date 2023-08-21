@@ -18,8 +18,8 @@ Ciljana skupina kojoj je Fipuzor namijenjen obuhvaća
 
 
 # Link na javni prototip: 
-Figma link
-
+[Figma link
+](https://www.figma.com/file/9inVSkAsZoHPk7VQ5BVx3j/Untitled?type=design&node-id=0%3A1&mode=design&t=xg4oe7cYvA38BMSe-1)
 # Postavljanje projekta
 
 ## Project setup
