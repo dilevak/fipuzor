@@ -12,9 +12,9 @@ Ciljana skupina kojoj je Fipuzor namijenjen obuhvaća
 # Ideje za mogucnosti          
            -Spremanje loyalty kartica od trgovina u "trezor"(eng. vault) -> FIPU+trezor=Fipuzor
            -Prikaz dodanih kartica (Podrska za 10-15 kartica)
-           -Mogućnost resetiranja lozinke (Edit profile)
            -Dodavanje in-app prijatelja
            -Dijeljenje kartica s obitelji/prijateljima
+           -Prikaz kartica koje su podijeljene s tobom
 
 
 # Link na javni prototip: 
