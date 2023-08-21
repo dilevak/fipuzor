@@ -14,7 +14,7 @@ Informacije o kartici se rucno pohranjuju u a aplikaciju, te se nakon toga kreir
 blagajnik skenira umjesot fiyicke kartice.
 Fipuzor nudi mogucnost dodavanja prijatelja unutar aplikacije te isto tako mogucnost dijeljenja kartica vrijednosti s obitelji i prijateljima.
 
-# Ideje za mogucnosti          
+# Fipuzor mogucnosti          
            -Spremanje loyalty kartica od trgovina u "trezor"(eng. vault) -> FIPU+trezor=Fipuzor
            -Prikaz dodanih kartica (Podrska za 10-15 kartica)
            -Dodavanje in-app prijatelja
