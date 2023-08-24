@@ -47,7 +47,7 @@ export default {
     ...mapMutations(['setUserID', 'addCard', 'setIsAuthenticated']),
     async login() {
       try {
-        const response = await axios.post('http://localhost:3000/api/login', {
+        const response = await axios.post('https://peaceful-savannah-87884-a889c5914717.herokuapp.com/api/login', {
           username: this.input.username,
           password: this.input.password,
         });
