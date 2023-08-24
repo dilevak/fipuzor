@@ -189,7 +189,7 @@ export default {
     async fetchUserCards() {
       try {
         console.log('Fetching user cards for userID:', this.userID); //Test linija
-        const response = await axios.get('http://localhost:3000/api/cards/' + this.userID);
+        const response = await axios.get('https://peaceful-savannah-87884-a889c5914717.herokuapp.com/api/cards/' + this.userID);
     if (response.data.success) {
       this.cards = response.data.cards;
 
@@ -207,7 +207,7 @@ export default {
 
   async login() {
       try {
-        const response = await axios.post('http://localhost:3000/api/login', {
+        const response = await axios.post('https://peaceful-savannah-87884-a889c5914717.herokuapp.com/api/login', {
           username: this.input.username,
           password: this.input.password,
         });
@@ -258,7 +258,7 @@ export default {
     return;
     } 
     
-    axios.post('http://localhost:3000/api/cards', newCard)
+    axios.post('https://peaceful-savannah-87884-a889c5914717.herokuapp.com/api/cards', newCard)
     .then(response => {
     if (response.data.success) {
       this.cards.push(newCard); // Add the new card to the local array
@@ -312,7 +312,7 @@ export default {
 async fetchFriendList() {
   try {
     console.log('Fetching friend list for userID:', this.userID); // Test line
-    const response = await axios.get(`http://localhost:3000/api/friend-list/${this.userID}`);
+    const response = await axios.get(`https://peaceful-savannah-87884-a889c5914717.herokuapp.com/api/friend-list/${this.userID}`);
     if (response.data.success) {
       this.friends = response.data.friends;
       this.showFriendList = true; // Show the friend list when fetched
@@ -347,7 +347,7 @@ async fetchFriendList() {
     console.log('Data Sent from Frontend:', requestData);
 
     axios
-      .post('http://localhost:3000/api/share-card', requestData)
+      .post('https://peaceful-savannah-87884-a889c5914717.herokuapp.com/api/share-card', requestData)
       .then((response) => {
         if (response.data.success) {
           console.log('Card shared successfully:', response.data.message);
@@ -376,7 +376,7 @@ clearSharingStatusAfterDelay() {
     async fetchSharedCards() {
   try {
     console.log('Fetching shared cards for friendId:', this.userID);
-    const response = await axios.get(`http://localhost:3000/api/shared-cards/${this.userID}`);
+    const response = await axios.get(`https://peaceful-savannah-87884-a889c5914717.herokuapp.com/api/shared-cards/${this.userID}`);
     if (response.data.success) {
       this.sharedCards = response.data.sharedCards;
       for (const sharedCard of this.sharedCards) {
