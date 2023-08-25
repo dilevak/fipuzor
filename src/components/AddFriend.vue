@@ -31,7 +31,7 @@ export default {
   methods: {
     async searchFriend() {
       try {
-        const response = await axios.get(`http://localhost:3000/api/search-friends/${this.searchEmail}`);
+        const response = await axios.get(`https://peaceful-savannah-87884-a889c5914717.herokuapp.com/api/search-friends/${this.searchEmail}`);
         if (response.data.success) {
           this.searchResults = response.data.results;
         } else {
@@ -45,7 +45,7 @@ export default {
       try {
         //console.log('Adding friend:', this.userId, friendEmail); //Logiraj sta saljemo
 
-        const response = await axios.post('http://localhost:3000/api/add-friend', {
+        const response = await axios.post('https://peaceful-savannah-87884-a889c5914717.herokuapp.com/api/add-friend', {
           userID: this.userId,
           friendEmail: friendEmail,
         });
