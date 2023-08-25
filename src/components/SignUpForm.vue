@@ -40,7 +40,7 @@
       async signup() {
         try {
           if (this.input.username !== '' && this.input.email !== '' && this.input.password !== '') {
-            const response = await axios.post('http://localhost:3000/api/signup', {
+            const response = await axios.post('https://peaceful-savannah-87884-a889c5914717.herokuapp.com/api/signup', {
               username: this.input.username,
               email: this.input.email,
               password: this.input.password,
