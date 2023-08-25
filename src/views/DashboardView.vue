@@ -107,8 +107,8 @@
   </div>
 </div>
 <!--Prikaz sheranih kartica logiranom useru-->
-<div class="shared-card-container-wrapper">
-  <div class="shared-card-container">
+<div class="card-container-wrapper shared-card-container-wrapper">
+    <div class="card-container shared-card-container">
     <div
       v-for="(sharedCard, index) in sharedCards"
       :key="index"
@@ -127,7 +127,7 @@
     <div v-if="sharedCards.length === 0" class="empty-card">
       No shared cards available.
     </div>
-    <div class="shared-cards-text-square">Shared Cards</div>
+    <div class="added-cards-text-square">Shared Cards</div>
   </div>
 </div>
 
